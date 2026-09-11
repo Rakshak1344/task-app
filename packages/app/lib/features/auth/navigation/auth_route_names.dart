@@ -1,0 +1,3 @@
+class AuthRouteNames {
+  const AuthRouteNames();
+}
