@@ -1,0 +1,50 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# IntelliJ / Android Studio
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VSCode
+.vscode/
+
+# Flutter / Dart
+.dart_tool/
+.pub-cache/
+.pub/
+build/
+**/build/
+
+# FVM - ignore the SDK itself, keep .fvmrc
+.fvm/
+
+# Melos
+.melos_tool/
+
+# Environment & Secrets
+*.defines.json
+*.env
+.env
+.env.*
+!.env.example
+
+# Generated files
+*.g.dart
+*.freezed.dart
+*.gr.dart
+
+# Coverage
+coverage/
+*.lcov
+
+# Logs
+*.log
+
+# Docs
+/docs
+
+#scripts
+scripts/
