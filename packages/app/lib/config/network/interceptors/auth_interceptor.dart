@@ -1,17 +1,8 @@
 import 'package:app/config/env.dart';
+import 'package:app/features/auth/repositories/local_auth_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'auth_interceptor.g.dart';
-
-@riverpod
-AuthInterceptor authInterceptor(Ref ref) {
-  return AuthInterceptor(ref, () async {
-    /// TODO: should parse the authToken
-    return "";
-  });
-}
 
 class AuthInterceptor extends Interceptor {
   final Ref ref;
@@ -32,7 +23,9 @@ class AuthInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) {
     if (err.requestOptions.baseUrl.startsWith(Env.baseUrl) &&
         err.response?.statusCode == 401) {
-      /// Invalidate the auth token
+      /// Invalidate the auth token. Removing it fires the storage watch, which
+      /// empties [AuthState] and sends the router back to login.
+      ref.read(localAuthRepositoryProvider).delete();
       handler.reject(err);
       return;
     }
@@ -42,7 +35,7 @@ class AuthInterceptor extends Interceptor {
   Future<void> _addAuthHeader(RequestOptions options) async {
     var accessToken = await onFetchToken();
 
-    if (accessToken != null) {
+    if (accessToken != null && accessToken.isNotEmpty) {
       options.headers["Authorization"] = "Bearer $accessToken";
     }
   }

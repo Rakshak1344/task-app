@@ -10,10 +10,10 @@ class TaskApp extends ConsumerStatefulWidget {
 }
 
 class _TaskAppState extends ConsumerState<TaskApp> {
-  var goRouter = ref.watch(goRouterProvider);
-
   @override
   Widget build(BuildContext context) {
+    var goRouter = ref.watch(goRouterProvider);
+
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: "TaskApp",

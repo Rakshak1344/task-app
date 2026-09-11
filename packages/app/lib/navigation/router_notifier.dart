@@ -1,3 +1,5 @@
+import 'package:app/features/auth/views/states/auth_state.dart';
+import 'package:app/navigation/middlewares/root_navigation_middleware.dart';
 import 'package:core/arch/navigation/middlewares/navigation_middleware.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -27,15 +29,14 @@ class RouterNotifier extends _$RouterNotifier implements Listenable {
     /// We can probably simplify this further. We might also need to add
     /// a couple of checks to reduce the number of times we call the listener.
 
-    // ref.listen(
-    //   authStateProvider.selectAsync((data) => data),
-    //   (_, __) => updateRootNavigationMiddleware(),
-    // );
-    //
-    // ref.listen(
-    //   userStateProvider.selectAsync((data) => data),
-    //   (_, __) => updateRootNavigationMiddleware(),
-    // );
+    /// Listening to the raw [AsyncValue] rather than `selectAsync`: that
+    /// variant hands back a Future which *rejects* when the provider goes to
+    /// error (a failed login — the common path), and with no onError handler
+    /// that surfaces as an unhandled async error.
+    ///
+    /// This listen is also what subscribes [authStateProvider] at startup,
+    /// which is what gets the token stream flowing in the first place.
+    ref.listen(authStateProvider, (_, _) => updateRootNavigationMiddleware());
 
     await updateRootNavigationMiddleware();
 
@@ -79,6 +80,8 @@ class RouterNotifier extends _$RouterNotifier implements Listenable {
   /// How feature flags are handled. We could also probably move the build number
   /// logic to a provider of its own.
   Future<void> updateRootNavigationMiddleware() async {
+    _redirect = RootNavigationMiddleware();
+
     _routerListener?.call();
   }
 }

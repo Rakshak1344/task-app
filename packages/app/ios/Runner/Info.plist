@@ -26,6 +26,16 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<!-- App Transport Security blocks cleartext HTTP by default, which stops
+	     the app reaching a local backend over http://. NSAllowsLocalNetworking
+	     permits loads to unqualified hostnames, .local, and RFC 1918 private
+	     addresses (192.168.x.x, 10.x.x.x) only — ATS stays fully enforced for
+	     everything on the public internet. -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
