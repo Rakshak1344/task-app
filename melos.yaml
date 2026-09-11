@@ -22,3 +22,10 @@ scripts:
     run: dart run build_runner build
     exec:
       orderDependents: true
+
+  analyze:
+    name: "analyze"
+    description: 'Analyze every package'
+    run: flutter analyze .
+    exec:
+      concurrency: 1
