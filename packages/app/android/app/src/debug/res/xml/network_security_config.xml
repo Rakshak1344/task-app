@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Debug-only. Android denies cleartext HTTP by default from targetSdk 28 up,
+  which blocks a local `php artisan serve` backend reached over http://.
+
+  This file lives under src/debug/, so it is merged into debug builds only —
+  release builds keep Android's default cleartext-denied policy.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

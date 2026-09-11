@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class NavigationMiddleware {
@@ -9,6 +10,8 @@ abstract class NavigationMiddleware {
 
   GoRouterState get state => _state;
 
+  ProviderContainer get ref => ProviderScope.containerOf(_context);
+
   String? call(BuildContext context, GoRouterState state) {
     _context = context;
     _state = state;
@@ -16,4 +19,14 @@ abstract class NavigationMiddleware {
   }
 
   String? onRedirect();
+
+  String namedLocation(
+      String name, {
+        Map<String, String> pathParameters = const <String, String>{},
+        Map<String, String> queryParameters = const <String, String>{},
+      }) => state.namedLocation(
+    name,
+    pathParameters: pathParameters,
+    queryParameters: queryParameters,
+  );
 }

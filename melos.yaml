@@ -1,3 +1,31 @@
-name: task-app
+name: taskapp
+
+sdkPath: .fvm/flutter_sdk
+
 packages:
   - packages/*
+
+scripts:
+  gen:watch:
+    name: "gen:watch"
+    description: 'Build generated files from build_runner and watch them for changes'
+    run: dart run build_runner watch
+    exec:
+      orderDependents: true
+    packageFilters:
+      dependsOn: build_runner
+
+  # Build Runner Scripts
+  gen:build:
+    name: "gen:build"
+    description: 'Build generated files from build_runner'
+    run: dart run build_runner build
+    exec:
+      orderDependents: true
+
+  analyze:
+    name: "analyze"
+    description: 'Analyze every package'
+    run: flutter analyze .
+    exec:
+      concurrency: 1
