@@ -207,13 +207,3 @@ The same loop drives authentication. `AuthService.login` writes the access token
 | **NetworkRepository** | Retrofit clients over Dio. `AuthInterceptor` attaches the bearer token and clears it on a 401. |
 
 ---
-
-## Troubleshooting
-
-**`DioException [unknown]: null`** — the request never left the device. Check `BASE_URL` is `http` not `https`, that the backend is bound to `0.0.0.0`, and that the device is on the same network as your machine.
-
-**`InvalidOutputException` / "Tried to delete from package not in the build"** — the build_runner cache went stale, usually after a file was moved or renamed. Fix with `dart run build_runner clean` in the affected package, then re-run `melos run gen:build`.
-
-**Analyzer reports missing generated symbols** — `melos run gen:build` has not been run since a clone or a model change. Generated files are gitignored by design.
-
-**"Cannot use the Ref of X after it has been disposed"** — an auto-dispose provider was resolved with `ref.read` and its async work outlived the read. Hold it open for the operation with `ref.keepAlive()` / `link.close()`.
