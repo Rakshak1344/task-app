@@ -1,6 +1,7 @@
 import 'package:app/features/tasks/data/models/task.dart';
 import 'package:app/features/tasks/data/models/task_priority.dart';
 import 'package:app/features/tasks/data/models/task_status.dart';
+import 'package:app/utils/keys.dart';
 import 'package:flutter/material.dart';
 
 class TaskListTile extends StatelessWidget {
@@ -21,6 +22,7 @@ class TaskListTile extends StatelessWidget {
     final isCompleted = task.status == TaskStatus.completed;
 
     return Card(
+      key: K.tasks.tile(task.id),
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       child: ListTile(
         onTap: onTap,
@@ -56,6 +58,7 @@ class TaskListTile extends StatelessWidget {
           ],
         ),
         trailing: PopupMenuButton<String>(
+          key: K.tasks.tileMoreButton(task.id),
           onSelected: (value) {
             if (value == 'edit') {
               onTap();
@@ -63,9 +66,17 @@ class TaskListTile extends StatelessWidget {
               onDelete();
             }
           },
-          itemBuilder: (context) => const [
-            PopupMenuItem(value: 'edit', child: Text('Edit')),
-            PopupMenuItem(value: 'delete', child: Text('Delete')),
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              key: K.tasks.tileEditOption,
+              value: 'edit',
+              child: const Text('Edit'),
+            ),
+            PopupMenuItem(
+              key: K.tasks.tileDeleteOption,
+              value: 'delete',
+              child: const Text('Delete'),
+            ),
           ],
         ),
       ),

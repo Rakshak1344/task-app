@@ -1,6 +1,7 @@
 import 'package:app/features/auth/views/states/login_state.dart';
 import 'package:app/features/auth/views/validators/validators.dart';
 import 'package:app/navigation/app_route_name.dart';
+import 'package:app/utils/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -94,6 +95,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                     const SizedBox(height: 32),
                     TextFormField(
+                      key: K.auth.emailEntry,
                       controller: _emailController,
                       enabled: !isLoading,
                       keyboardType: TextInputType.emailAddress,
@@ -108,6 +110,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
+                      key: K.auth.passwordEntry,
                       controller: _passwordController,
                       enabled: !isLoading,
                       obscureText: _obscurePassword,
@@ -134,6 +137,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     Visibility(
                       visible: isLoading,
                       replacement: ElevatedButton(
+                        key: K.auth.loginButton,
                         onPressed: _submit,
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
@@ -144,6 +148,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                     const SizedBox(height: 8),
                     TextButton(
+                      key: K.auth.createAccountButton,
+
                       /// Pushed rather than replaced, so the back gesture
                       /// returns here without signup needing its own link back.
                       onPressed: isLoading

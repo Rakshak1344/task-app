@@ -20,17 +20,12 @@ class TaskService {
   final NetworkTaskRepository _networkRepository;
   final LocalTaskRepository _localRepository;
 
-  static const int defaultPerPage = 10;
-
   Stream<List<Task>> watch() => _localRepository.watch();
 
   Stream<Task?> watchOneById(int taskId) =>
       _localRepository.watchOneById(taskId);
 
-  Future<void> fetchTasks({
-    int page = 1,
-    int perPage = defaultPerPage,
-  }) async {
+  Future<void> fetchTasks({int page = 1, int perPage = 10}) async {
     final response = await _networkRepository.index(page, perPage);
 
     if (page == 1) {

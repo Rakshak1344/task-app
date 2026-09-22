@@ -1,5 +1,6 @@
 import 'package:app/features/auth/views/states/auth_state.dart';
 import 'package:app/features/auth/views/states/user_state.dart';
+import 'package:app/utils/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -46,6 +47,7 @@ class ProfilePage extends ConsumerWidget {
                   ),
                   const SizedBox(height: 40),
                   FilledButton.icon(
+                    key: K.profile.logoutButton,
                     onPressed: () =>
                         ref.read(authStateProvider.notifier).logout(),
                     style: FilledButton.styleFrom(

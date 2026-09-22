@@ -1,3 +1,4 @@
+import 'package:app/features/auth/data/models/auth.dart';
 import 'package:app/features/auth/repositories/local_auth_repository.dart';
 import 'package:app/features/auth/repositories/local_user_repository.dart';
 import 'package:app/features/auth/repositories/network_auth_repository.dart';
@@ -25,15 +26,18 @@ class AuthService {
   Future<void> login(String email, String password) async {
     final response = await _networkAuthRepository.login(email, password);
 
-    await _localUserRepository.save(response.data.user);
-    await _localAuthRepository.save(response.data.accessToken);
+    await updateUserAndToken(response.data);
   }
 
   Future<void> signup(String name, String email, String password) async {
     final response = await _networkAuthRepository.signup(name, email, password);
 
-    await _localUserRepository.save(response.data.user);
-    await _localAuthRepository.save(response.data.accessToken);
+    await updateUserAndToken(response.data);
+  }
+
+  Future<void> updateUserAndToken(Auth auth) async {
+    await _localUserRepository.save(auth.user);
+    await _localAuthRepository.save(auth.accessToken);
   }
 
   Future<void> logout() async {

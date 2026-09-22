@@ -1,21 +1,41 @@
 PODS:
+  - CocoaAsyncSocket (7.6.5)
   - Flutter (1.0.0)
   - flutter_secure_storage (6.0.0):
     - Flutter
+  - integration_test (0.0.1):
+    - Flutter
+  - patrol (0.0.1):
+    - CocoaAsyncSocket (~> 7.6)
+    - Flutter
+    - FlutterMacOS
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
+  - patrol (from `.symlinks/plugins/patrol/darwin`)
+
+SPEC REPOS:
+  trunk:
+    - CocoaAsyncSocket
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
+  patrol:
+    :path: ".symlinks/plugins/patrol/darwin"
 
 SPEC CHECKSUMS:
+  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
+  integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
+  patrol: c5604f9b899a0076cc30ba183ddd78fb3465e9bc
 
 PODFILE CHECKSUM: 3c63482e143d1b91d2d2560aee9fb04ecc74ac7e
 

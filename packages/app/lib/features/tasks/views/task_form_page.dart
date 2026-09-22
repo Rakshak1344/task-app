@@ -3,6 +3,7 @@ import 'package:app/features/tasks/data/models/task_priority.dart';
 import 'package:app/features/tasks/data/models/task_status.dart';
 import 'package:app/features/tasks/views/states/task_detail_state.dart';
 import 'package:app/features/tasks/views/states/task_form_state.dart';
+import 'package:app/utils/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -207,6 +208,7 @@ class _TaskFormPageState extends ConsumerState<TaskFormPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               TextFormField(
+                key: K.tasks.titleEntry,
                 controller: _titleController,
                 enabled: !isSaving,
                 textInputAction: TextInputAction.next,
@@ -219,6 +221,7 @@ class _TaskFormPageState extends ConsumerState<TaskFormPage> {
               ),
               const SizedBox(height: 16),
               TextFormField(
+                key: K.tasks.descriptionEntry,
                 controller: _descriptionController,
                 enabled: !isSaving,
                 maxLines: 4,
@@ -231,6 +234,7 @@ class _TaskFormPageState extends ConsumerState<TaskFormPage> {
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<TaskStatus>(
+                key: K.tasks.statusDropdown,
                 initialValue: _status,
                 decoration: const InputDecoration(
                   labelText: 'Status',
@@ -250,6 +254,7 @@ class _TaskFormPageState extends ConsumerState<TaskFormPage> {
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<TaskPriority>(
+                key: K.tasks.priorityDropdown,
                 initialValue: _priority,
                 decoration: const InputDecoration(
                   labelText: 'Priority',
@@ -300,6 +305,7 @@ class _TaskFormPageState extends ConsumerState<TaskFormPage> {
               Visibility(
                 visible: isSaving,
                 replacement: FilledButton(
+                  key: K.tasks.submitButton,
                   onPressed: _submit,
                   style: FilledButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),

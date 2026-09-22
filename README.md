@@ -5,7 +5,7 @@ A Flutter task manager backed by a Laravel API. Melos monorepo with two packages
 | Package | Contents |
 |---|---|
 | `packages/app` | The Flutter application — features, navigation, storage, networking |
-| `packages/core` | Shared architecture — route providers, navigation middlewares, storage abstraction, response envelopes, exception adapter, `PaginatedListView` |
+| `packages/core` | Shared architecture — route providers, navigation middlewares, storage abstraction, response envelopes, exception adapter, `PaginatedListView`, and the integration-test harness under `core/lib/test/` (`TestApp`, `PageRobot`, `MemoryDb`/`Store`) |
 
 Platforms: **Android and iOS**.
 
@@ -18,6 +18,7 @@ Platforms: **Android and iOS**.
 | [FVM](https://fvm.app/documentation/getting-started/installation) | latest | Pins Flutter per-project |
 | Flutter | `3.41.9` | Pinned in `.fvmrc`; FVM installs it for you |
 | [Melos](https://melos.invertase.dev/) | `^6.3.2` | `dart pub global activate melos` |
+| [patrol_cli](https://patrol.leancode.co/) | `^4.8.0` | `dart pub global activate patrol_cli` — integration tests only |
 | PHP + Composer | PHP 8.2+ | For the backend |
 | MySQL / SQLite | — | Backend database |
 
@@ -132,8 +133,94 @@ Sign up in the app to create an account — the token is persisted, so subsequen
 melos run gen:build      # one-shot codegen
 melos run gen:watch      # codegen in watch mode while developing
 melos run analyze        # analyze every package
-cd packages/app && fvm flutter test
+
+cd packages/app
+fvm flutter test                                 # widget + unit
+patrol test -t integration_test/lib/features/    # on-device integration
 ```
+
+See [6. Testing](#6-testing) for what each suite covers.
+
+---
+
+## 6. Testing
+
+Two suites. The widget/unit tests pump widgets in isolation; the integration tests boot the whole
+app on a device and drive it through the UI.
+
+**Neither suite needs the backend running**, and neither needs `dev.defines.json`. The integration
+tests install `FakeAuthNetworkRepository` and `FakeTaskRepository` over the Riverpod providers, so
+nothing ever reaches the network.
+
+### Widget & unit — 21 tests
+
+```bash
+cd packages/app
+fvm flutter test
+```
+
+No device, no emulator.
+
+| File | Tests | Covers |
+|---|---|---|
+| `test/features/auth/login_page_test.dart` | 6 | field rendering, client-side validation, the signup link, password visibility toggle |
+| `test/features/auth/signup_page_test.dart` | 6 | field rendering, confirm-password mismatch and recovery, a fully valid form, independent visibility toggles |
+| `test/features/profile/profile_page_test.dart` | 4 | email and name rendering, the `—` placeholder, logout clearing storage |
+| `test/features/tasks/task_model_test.dart` | 4 | paginated envelope, column defaults, unknown enum fallback, `isOverdue` |
+| `test/features/auth/auth_model_test.dart` | 1 | parsing the backend auth envelope |
+
+### Integration — Patrol, on device — 16 tests
+
+```bash
+cd packages/app
+
+patrol devices                                                    # list attached devices
+patrol test -t integration_test/lib/features/                     # everything
+patrol test -t integration_test/lib/features/auth/views/ -d <id>  # one feature
+```
+
+| File | Scenario |
+|---|---|
+| `auth/views/login_page_test.dart` | User can log in with valid credentials and land on the task list |
+| `auth/views/login_page_test.dart` | Wrong password keeps the user on the login page |
+| `auth/views/signup_page_test.dart` | New user can create an account and land on the task list |
+| `auth/views/signup_page_test.dart` | Signing up with an already registered email fails |
+| `profile/views/profile_page_test.dart` | Signed in user sees their details on the profile page |
+| `profile/views/profile_page_test.dart` | Profile is reachable from the task list |
+| `profile/views/profile_page_test.dart` | Logging out clears the session and returns to the login page |
+| `tasks/views/task_form_page_test.dart` | Creating a task adds it to the list |
+| `tasks/views/task_form_page_test.dart` | A blank title is rejected |
+| `tasks/views/task_form_page_test.dart` | Status and priority carry through to the created task |
+| `tasks/views/task_form_page_test.dart` | Leaving the form without saving adds nothing |
+| `tasks/views/task_list_page_test.dart` | An empty list shows the no tasks message |
+| `tasks/views/task_list_page_test.dart` | The end of a loaded list shows the no more tasks message |
+| `tasks/views/task_list_page_test.dart` | A task card offers edit and delete |
+| `tasks/views/task_list_page_test.dart` | Deleting a task removes its card from the list |
+| `tasks/views/task_list_page_test.dart` | Scrolling to the end loads the next page |
+
+All paths are relative to `packages/app/integration_test/lib/features/`.
+
+Two things to know before running these:
+
+- **`flutter test integration_test/...` does not work.** The Flutter tool installs
+  `IntegrationTestWidgetsFlutterBinding` for anything under `integration_test/`, which collides with
+  the live binding Patrol needs, and fails with `Binding is already initialized to
+  IntegrationTestWidgetsFlutterBinding`. Use `patrol test`.
+- **Android only, for now.** The instrumentation setup is committed — the `testInstrumentationRunner`
+  in `android/app/build.gradle.kts` plus
+  `android/app/src/androidTest/java/com/task/app/MainActivityTest.java`. iOS needs a UI-test target
+  added to `ios/Runner.xcodeproj`, which has not been done yet.
+
+### How the integration suite is put together
+
+| Piece | Location | Role |
+|---|---|---|
+| `TaskTestApp` | `integration_test/lib/features/config/` | Boots the real app with fakes swapped in; `MemoryDb` resets between tests |
+| Robots | `integration_test/lib/features/*/robots/` | Interaction only — tap and type. No data, no assertions |
+| Fakes | `integration_test/lib/features/*/repositories/` | Stand in for the Retrofit clients; can inject 401/422 failures |
+| Factories | `integration_test/lib/features/*/factories/` | `data_fixture_dart` fixtures for `User`, `Auth`, `Task` |
+| `KAuth` | `integration_test/lib/features/auth/consts/` | The credentials tests type in |
+| `TestAppAuth` | `integration_test/utils/` | Seeds a registered user or a signed-in session before `init()` |
 
 ---
 

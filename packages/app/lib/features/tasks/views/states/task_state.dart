@@ -14,10 +14,10 @@ class TaskState extends _$TaskState {
   @override
   Stream<List<Task>> build() => _service.watch();
 
-  Future<void> fetchTasks({int page = 1, int perPage = 10}) async {
+  Future<void> fetchTasks([int page = 1]) async {
     await _exceptionAdapter
         .run(() async {
-          await _service.fetchTasks(page: page, perPage: perPage);
+          await _service.fetchTasks(page: page);
         })
         .catchError((e, st) {
           state = AsyncError(e, st);
