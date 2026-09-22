@@ -13,7 +13,8 @@ import 'package:patrol/src/platform/mobile/patrol_runtime_ports.dart';
 import 'package:test_api/src/backend/invoker.dart';
 
 // START: GENERATED TEST IMPORTS
-import '../integration_test/lib/features/tasks/views/task_list_page_test.dart' as integration_test__lib__features__tasks__views__task_list_page_test;
+import '../integration_test/lib/features/tasks/views/task_list_page_test.dart'
+    as integration_test__lib__features__tasks__views__task_list_page_test;
 // END: GENERATED TEST IMPORTS
 
 Future<void> main() async {
@@ -104,9 +105,12 @@ Future<void> main() async {
     reportGroupStructure(dartTestGroup);
   });
 
-// START: GENERATED TEST GROUPS
-  group('integration_test.lib.features.tasks.views.task_list_page_test', integration_test__lib__features__tasks__views__task_list_page_test.main);
-// END: GENERATED TEST GROUPS
+  // START: GENERATED TEST GROUPS
+  group(
+    'integration_test.lib.features.tasks.views.task_list_page_test',
+    integration_test__lib__features__tasks__views__task_list_page_test.main,
+  );
+  // END: GENERATED TEST GROUPS
 
   if (constants.testDiscoveryEnabled) {
     // Returning finishes declaration; `flutter test` then runs the explorer

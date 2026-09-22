@@ -62,7 +62,9 @@ void main() {
     expect(app.getTasks(), isEmpty);
   });
 
-  patrolTest("Status and priority carry through to the created task", ($) async {
+  patrolTest("Status and priority carry through to the created task", (
+    $,
+  ) async {
     // Arrange
     var app = emptyTaskListApp();
     await app.setupLoggedIn();

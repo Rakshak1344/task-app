@@ -21,7 +21,8 @@ class LocalTaskRepository extends CollectionRepository<Task> {
   final StreamController<List<Task>> _controller =
       StreamController<List<Task>>();
 
-  late final Stream<List<Task>> _stream = _controller.stream.asBroadcastStream();
+  late final Stream<List<Task>> _stream = _controller.stream
+      .asBroadcastStream();
 
   StreamSubscription<String?>? _subscription;
 

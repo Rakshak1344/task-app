@@ -13,10 +13,7 @@ class LoginState extends _$LoginState {
   @override
   AsyncValue<void> build() => const AsyncData(null);
 
-  Future<void> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> login({required String email, required String password}) async {
     state = const AsyncLoading();
 
     try {

@@ -24,9 +24,7 @@ class FakeTaskRepository implements NetworkTaskRepository {
     final lastPage = max(1, (totalTasks / perPage).ceil());
     final offset = (page - 1) * perPage;
     final count = (totalTasks - offset).clamp(0, perPage);
-    final tasks = count == 0
-        ? <Task>[]
-        : TaskFixture.factory().makeMany(count);
+    final tasks = count == 0 ? <Task>[] : TaskFixture.factory().makeMany(count);
 
     return PagedResponse(
       tasks,
@@ -106,7 +104,8 @@ class FakeTaskRepository implements NetworkTaskRepository {
   @override
   Future<void> destroy(int id) async => _maybeThrow();
 
-  String _pageUrl(int page, int perPage) => '/tasks?page=$page&per_page=$perPage';
+  String _pageUrl(int page, int perPage) =>
+      '/tasks?page=$page&per_page=$perPage';
 
   void _maybeThrow() {
     final error = _error;

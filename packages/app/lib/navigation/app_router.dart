@@ -28,9 +28,6 @@ class AppRouter {
       routeProviders().fold([], (prev, e) => [...prev, ...e.routes()]);
 
   List<RouteProvider> routeProviders() {
-    return [
-      UnauthenticatedRoutesProvider(),
-      AuthenticatedRoutesProvider(),
-    ];
+    return [UnauthenticatedRoutesProvider(), AuthenticatedRoutesProvider()];
   }
 }

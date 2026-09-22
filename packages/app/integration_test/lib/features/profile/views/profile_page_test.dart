@@ -8,7 +8,9 @@ import '../../config/task_test_app_config.dart';
 import '../robots/profile_robot.dart';
 
 void main() {
-  patrolTest("Signed in user sees their details on the profile page", ($) async {
+  patrolTest("Signed in user sees their details on the profile page", (
+    $,
+  ) async {
     // Arrange
     var app = TaskTestApp();
     var user = await app.setupLoggedIn();
@@ -40,7 +42,10 @@ void main() {
     await profileRobot.openProfile();
 
     // Assert
-    expect(app.getCurrentRoute(), app.getRouteFor(AppRouteName.profile.profile));
+    expect(
+      app.getCurrentRoute(),
+      app.getRouteFor(AppRouteName.profile.profile),
+    );
     expect($(ProfilePage), findsOneWidget);
   });
 

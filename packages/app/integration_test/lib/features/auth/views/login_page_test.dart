@@ -14,30 +14,31 @@ import '../repositories/fake_auth_network_repository.dart';
 import '../robots/auth_robot.dart';
 
 void main() {
-  patrolTest("User can log in with valid credentials and land on the task list", (
-    $,
-  ) async {
-    // Arrange
-    var app = TaskTestApp();
-    var existingUser = await app.setupWithExistingUser();
-    await app.init($);
+  patrolTest(
+    "User can log in with valid credentials and land on the task list",
+    ($) async {
+      // Arrange
+      var app = TaskTestApp();
+      var existingUser = await app.setupWithExistingUser();
+      await app.init($);
 
-    var authRobot = AuthRobot(app);
-    var taskListRoute = app.getRouteFor(AppRouteName.tasks.list);
+      var authRobot = AuthRobot(app);
+      var taskListRoute = app.getRouteFor(AppRouteName.tasks.list);
 
-    expect($(K.auth.loginButton), findsOneWidget);
-    expect(app.getCurrentRoute(), isNot(taskListRoute));
-    expect(app.getAccessToken(), isNull);
+      expect($(K.auth.loginButton), findsOneWidget);
+      expect(app.getCurrentRoute(), isNot(taskListRoute));
+      expect(app.getAccessToken(), isNull);
 
-    // Act
-    await authRobot.login(KAuth.email, KAuth.password);
+      // Act
+      await authRobot.login(KAuth.email, KAuth.password);
 
-    // Assert
-    expect(app.getCurrentRoute(), taskListRoute);
-    expect($(TaskListPage), findsOneWidget);
-    expect(app.getAccessToken(), isNotNull);
-    expect(app.getLoggedInUser(), existingUser);
-  });
+      // Assert
+      expect(app.getCurrentRoute(), taskListRoute);
+      expect($(TaskListPage), findsOneWidget);
+      expect(app.getAccessToken(), isNotNull);
+      expect(app.getLoggedInUser(), existingUser);
+    },
+  );
 
   patrolTest("Wrong password keeps the user on the login page", ($) async {
     // Arrange

@@ -14,33 +14,32 @@ import '../repositories/fake_auth_network_repository.dart';
 import '../robots/auth_robot.dart';
 
 void main() {
-  patrolTest(
-    "New user can create an account and land on the task list",
-    ($) async {
-      // Arrange
-      var app = TaskTestApp();
-      await app.init($);
+  patrolTest("New user can create an account and land on the task list", (
+    $,
+  ) async {
+    // Arrange
+    var app = TaskTestApp();
+    await app.init($);
 
-      var authRobot = AuthRobot(app);
-      var taskListRoute = app.getRouteFor(AppRouteName.tasks.list);
+    var authRobot = AuthRobot(app);
+    var taskListRoute = app.getRouteFor(AppRouteName.tasks.list);
 
-      expect($(K.auth.createAccountButton), findsOneWidget);
-      expect(app.getAccessToken(), isNull);
+    expect($(K.auth.createAccountButton), findsOneWidget);
+    expect(app.getAccessToken(), isNull);
 
-      await authRobot.goToSignup();
-      expect($(SignupPage), findsOneWidget);
-      expect(app.getCurrentRoute(), app.getRouteFor(AppRouteName.auth.signup));
+    await authRobot.goToSignup();
+    expect($(SignupPage), findsOneWidget);
+    expect(app.getCurrentRoute(), app.getRouteFor(AppRouteName.auth.signup));
 
-      // Act
-      await authRobot.signup(KAuth.name, KAuth.email, KAuth.password);
+    // Act
+    await authRobot.signup(KAuth.name, KAuth.email, KAuth.password);
 
-      // Assert
-      expect(app.getCurrentRoute(), taskListRoute);
-      expect($(TaskListPage), findsOneWidget);
-      expect(app.getAccessToken(), isNotNull);
-      expect(app.getLoggedInUser()?.email, KAuth.email);
-    },
-  );
+    // Assert
+    expect(app.getCurrentRoute(), taskListRoute);
+    expect($(TaskListPage), findsOneWidget);
+    expect(app.getAccessToken(), isNotNull);
+    expect(app.getLoggedInUser()?.email, KAuth.email);
+  });
 
   patrolTest("Signing up with an already registered email fails", ($) async {
     // Arrange

@@ -132,9 +132,7 @@ class _PriorityChip extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           priority.label,
-          style: Theme.of(
-            context,
-          ).textTheme.labelSmall?.copyWith(color: color),
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(color: color),
         ),
       ],
     );
@@ -161,9 +159,7 @@ class _DueDateLabel extends StatelessWidget {
           '${due.day.toString().padLeft(2, '0')}/'
           '${due.month.toString().padLeft(2, '0')}/'
           '${due.year}',
-          style: Theme.of(
-            context,
-          ).textTheme.labelSmall?.copyWith(color: color),
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(color: color),
         ),
       ],
     );

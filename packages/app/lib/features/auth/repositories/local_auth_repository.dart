@@ -30,7 +30,6 @@ class LocalAuthRepository {
     return sharedPreference.setValue(key, data);
   }
 
-
   Stream<String?> watch() {
     sharedPreference
         .watchValue<String?>(key)

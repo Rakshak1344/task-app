@@ -30,8 +30,7 @@ class FakeAuthNetworkRepository
   static const String invalidCredentialsMessage =
       'These credentials do not match our records.';
 
-  static const String emailTakenMessage =
-      'The email has already been taken.';
+  static const String emailTakenMessage = 'The email has already been taken.';
 
   @override
   Future<ObjectResponse<Auth>> login(String email, String password) async {
@@ -72,9 +71,7 @@ class FakeAuthNetworkRepository
       return current;
     }
 
-    return store.value = UserFixture.factory()
-        .withEmail(email)
-        .makeSingle();
+    return store.value = UserFixture.factory().withEmail(email).makeSingle();
   }
 
   Auth _authFor(String email) =>

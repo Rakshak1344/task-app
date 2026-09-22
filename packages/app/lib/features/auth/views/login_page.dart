@@ -154,9 +154,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       /// returns here without signup needing its own link back.
                       onPressed: isLoading
                           ? null
-                          : () =>
-                                context.pushNamed(AppRouteName.auth.signup),
-                      child: const Text("Don't have an account? Create account"),
+                          : () => context.pushNamed(AppRouteName.auth.signup),
+                      child: const Text(
+                        "Don't have an account? Create account",
+                      ),
                     ),
                   ],
                 ),

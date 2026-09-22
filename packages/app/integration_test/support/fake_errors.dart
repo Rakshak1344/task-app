@@ -17,9 +17,7 @@ DioException dioError(int statusCode, Map<String, dynamic> body) {
 DioException unauthorizedError() =>
     dioError(401, {'message': 'Invalid credentials'});
 
-DioException validationError(Map<String, List<String>> errors) => dioError(422, {
-  'message': 'The given data was invalid.',
-  'errors': errors,
-});
+DioException validationError(Map<String, List<String>> errors) =>
+    dioError(422, {'message': 'The given data was invalid.', 'errors': errors});
 
 DioException notFoundError() => dioError(404, {'message': 'Not found.'});
