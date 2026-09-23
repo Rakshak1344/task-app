@@ -1,4 +1,4 @@
-import 'package:app/arch/app_config.dart';
+import 'package:core/arch/app_config.dart';
 import 'package:app/features/auth/navigation/authenticated_routes_provider.dart';
 import 'package:app/features/auth/navigation/unauthenticated_routes_provider.dart';
 import 'package:app/navigation/router_notifier.dart';
@@ -28,9 +28,6 @@ class AppRouter {
       routeProviders().fold([], (prev, e) => [...prev, ...e.routes()]);
 
   List<RouteProvider> routeProviders() {
-    return [
-      UnauthenticatedRoutesProvider(),
-      AuthenticatedRoutesProvider(),
-    ];
+    return [UnauthenticatedRoutesProvider(), AuthenticatedRoutesProvider()];
   }
 }

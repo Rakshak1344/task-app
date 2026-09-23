@@ -37,5 +37,5 @@ abstract class AppConfig {
 
   FutureOr<List<ProviderObserver>> observers();
 
-  FutureOr<List<Override>> overrides();
+  List<Override> overrides();
 }

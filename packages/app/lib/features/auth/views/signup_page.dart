@@ -1,6 +1,7 @@
 import 'package:app/features/auth/views/states/signup_state.dart';
 import 'package:app/features/auth/views/validators/validators.dart';
 import 'package:app/navigation/app_route_name.dart';
+import 'package:app/utils/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -86,6 +87,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     TextFormField(
+                      key: K.auth.nameEntry,
                       controller: _nameController,
                       enabled: !isLoading,
                       keyboardType: TextInputType.name,
@@ -100,6 +102,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
+                      key: K.auth.emailEntry,
                       controller: _emailController,
                       enabled: !isLoading,
                       keyboardType: TextInputType.emailAddress,
@@ -114,6 +117,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
+                      key: K.auth.passwordEntry,
                       controller: _passwordController,
                       enabled: !isLoading,
                       obscureText: _obscurePassword,
@@ -146,6 +150,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
+                      key: K.auth.confirmPasswordEntry,
                       controller: _confirmPasswordController,
                       enabled: !isLoading,
                       obscureText: _obscureConfirmPassword,
@@ -174,6 +179,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                     Visibility(
                       visible: isLoading,
                       replacement: ElevatedButton(
+                        key: K.auth.signupButton,
                         onPressed: _submit,
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),

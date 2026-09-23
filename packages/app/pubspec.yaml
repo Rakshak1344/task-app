@@ -48,9 +48,12 @@ dependencies:
   hive_ce: ^2.19.3
   hive_ce_flutter: ^2.3.4
   flutter_secure_storage: ^9.2.4
+  data_fixture_dart: ^3.0.0
 
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -64,9 +67,20 @@ dev_dependencies:
   riverpod_generator: ^4.0.3
   freezed: ^3.2.5
   retrofit_generator: ^10.2.9
+  faker: ^2.2.0
+  patrol: ^4.10.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+
+# Configuration for the Patrol CLI (`patrol test`). The ids match
+# android/app/build.gradle.kts and the Runner target's bundle identifier.
+patrol:
+  app_name: Task App
+  android:
+    package_name: com.task.app
+  ios:
+    bundle_id: com.task.app
 
 # The following section is specific to Flutter packages.
 flutter:

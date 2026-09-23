@@ -1,5 +1,6 @@
 import 'package:app/features/auth/navigation/middlewares/authenticated_navigation_middleware.dart';
 import 'package:app/features/profile/views/profile_page.dart';
+import 'package:app/features/tasks/views/task_filter_page.dart';
 import 'package:app/features/tasks/views/task_form_page.dart';
 import 'package:app/features/tasks/views/task_list_page.dart';
 import 'package:app/navigation/app_route_name.dart';
@@ -35,6 +36,13 @@ class AuthenticatedRoutesProvider extends RouteProvider {
                   return TaskFormPage(
                     taskId: int.tryParse(state.pathParameters['id'] ?? ''),
                   );
+                },
+              ),
+              GoRoute(
+                path: 'filter',
+                name: AppRouteName.tasks.filter,
+                builder: (BuildContext context, GoRouterState state) {
+                  return TaskFilterPage();
                 },
               ),
             ],

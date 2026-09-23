@@ -111,10 +111,7 @@ void main() {
       final pending = Task(id: 1, title: 'Late', dueDate: past);
       expect(pending.isOverdue, isTrue);
 
-      expect(
-        pending.copyWith(status: TaskStatus.completed).isOverdue,
-        isFalse,
-      );
+      expect(pending.copyWith(status: TaskStatus.completed).isOverdue, isFalse);
     });
   });
 }

@@ -16,10 +16,7 @@ Widget wrap(Preferences preferences) {
   );
 }
 
-FakePreferences signedInAs({
-  required String email,
-  String? name,
-}) {
+FakePreferences signedInAs({required String email, String? name}) {
   return FakePreferences({
     PreferenceKeys.accessToken: 'token-123',
     PreferenceKeys.user: jsonEncode({

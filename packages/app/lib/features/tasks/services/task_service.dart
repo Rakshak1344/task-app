@@ -1,4 +1,5 @@
 import 'package:app/features/tasks/data/models/task.dart';
+import 'package:app/features/tasks/data/models/task_filter.dart';
 import 'package:app/features/tasks/data/models/task_priority.dart';
 import 'package:app/features/tasks/data/models/task_status.dart';
 import 'package:app/features/tasks/repositories/local_task_repository.dart';
@@ -20,8 +21,6 @@ class TaskService {
   final NetworkTaskRepository _networkRepository;
   final LocalTaskRepository _localRepository;
 
-  static const int defaultPerPage = 10;
-
   Stream<List<Task>> watch() => _localRepository.watch();
 
   Stream<Task?> watchOneById(int taskId) =>
@@ -29,15 +28,22 @@ class TaskService {
 
   Future<void> fetchTasks({
     int page = 1,
-    int perPage = defaultPerPage,
+    int perPage = 10,
+    TaskFilter? filter,
   }) async {
-    final response = await _networkRepository.index(page, perPage);
+    final response = await _networkRepository.index(
+      page,
+      perPage,
+      filter?.status?.value,
+      filter?.priority?.value,
+      filter?.searchTerm,
+    );
 
     if (page == 1) {
-      await _localRepository.deleteAll();
+      await _localRepository.replaceAll(response.data);
+    } else {
+      await _localRepository.save(response.data);
     }
-
-    await _localRepository.save(response.data);
 
     if (response.meta.currentPage >= response.meta.lastPage) {
       throw NoMoreDataException();

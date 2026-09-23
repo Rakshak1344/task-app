@@ -17,6 +17,7 @@ dependencies:
   json_annotation: ^4.11.0
   riverpod_annotation: ^4.0.2
   dio: ^5.11.1
+  patrol: ^4.10.0
 
 dev_dependencies:
   flutter_test:
