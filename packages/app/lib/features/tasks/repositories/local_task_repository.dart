@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:app/features/tasks/data/models/task.dart';
+import 'package:app/storage/const/preference_keys.dart';
 import 'package:core/arch/repository.dart';
 import 'package:core/arch/storage/preference.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -26,7 +27,7 @@ class LocalTaskRepository extends CollectionRepository<Task> {
 
   StreamSubscription<String?>? _subscription;
 
-  static const _key = 'tasks';
+  static const _key = PreferenceKeys.tasks;
 
   @override
   Stream<List<Task>> watch() {
@@ -54,6 +55,11 @@ class LocalTaskRepository extends CollectionRepository<Task> {
 
     await _write(merged.values.toList());
   }
+
+  /// Page one replaces the cache outright. Writing once rather than deleting
+  /// and then saving keeps the stream from emitting an empty list in between,
+  /// which showed up as the list flashing empty on every reload.
+  Future<void> replaceAll(List<Task> tasks) => _write(tasks);
 
   Future<void> saveOne(Task data) async {
     final tasks = get();
