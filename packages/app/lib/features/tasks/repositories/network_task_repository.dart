@@ -21,6 +21,9 @@ abstract class NetworkTaskRepository {
   Future<PagedResponse<Task>> index(
     @Query('page') int page,
     @Query('per_page') int perPage,
+    @Query('status') String? status,
+    @Query('priority') String? priority,
+    @Query('search') String? search,
   );
 
   @GET('/tasks/{id}')

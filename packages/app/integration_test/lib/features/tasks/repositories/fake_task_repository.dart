@@ -18,7 +18,13 @@ class FakeTaskRepository implements NetworkTaskRepository {
   final DioException? _error;
 
   @override
-  Future<PagedResponse<Task>> index(int page, int perPage) async {
+  Future<PagedResponse<Task>> index(
+    int page,
+    int perPage,
+    String? status,
+    String? priority,
+    String? search,
+  ) async {
     _maybeThrow();
 
     final lastPage = max(1, (totalTasks / perPage).ceil());
